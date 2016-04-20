@@ -1,6 +1,6 @@
 import React from 'react';
 import List from './List';
-// import Edit from './Edit';
+import Edit from './Edit';
 import Recipe from './Recipe';
 
 class MainPage extends React.Component {
@@ -27,6 +27,12 @@ class MainPage extends React.Component {
       recipeIndex: index });
   }
 
+  renderEdit(index) {
+    this.setState({
+      view: 'Edit',
+      recipeIndex: index });
+  }
+
   render() {
     return (
             <div>
@@ -35,9 +41,13 @@ class MainPage extends React.Component {
                   recClick = {this.renderRecipe}
                 />
                 {this.state.view === 'Edit' ? <Edit options = {this.state.recipeIndex} /> : null}
-                {this.state.view === 'Recipe' ? <Recipe name = {this.state.recipes[this.state.recipeIndex].name}
+                {this.state.view === 'Recipe'
+                ? <Recipe name = {this.state.recipes[this.state.recipeIndex].name}
                   ingredients = {this.state.recipes[this.state.recipeIndex].ingredients}
-                /> : null}
+                  index = {this.state.recipeIndex}
+                  editClick = {this.renderEdit}
+                />
+                : null}
             </div>
         );
   }
