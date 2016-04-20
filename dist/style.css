@@ -1,0 +1,19 @@
+.recipe {
+	border: 2px solid green;
+	margin: 20px;
+}
+
+.edit {
+	border: 2px solid red;
+	margin: 20px;
+}
+
+.list {
+	border: 2px solid blue;
+	margin: 20px;
+}
+
+.mainPage {
+	border: 2px solid yellow;
+	margin: 20px;
+}

@@ -23,7 +23,7 @@ class List extends React.Component {
   render() {
     const content = this.renderRecipes();
     return (
-            <div>
+            <div className = "list">
                 <h2>List of Recipes</h2>
                 {content}
             </div>

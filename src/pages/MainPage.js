@@ -13,6 +13,9 @@ class MainPage extends React.Component {
                    recipeIndex: null };
     this.renderRecipe = this.renderRecipe.bind(this);
     this.addRecipe = this.addRecipe.bind(this);
+    this.renderEdit = this.renderEdit.bind(this);
+    this.editSubmit = this.editSubmit.bind(this);
+    this.closeWindows = this.closeWindows.bind(this);
   }
   // Create an update method that writes recipes from state to localStorage.recipes
 
@@ -21,26 +24,64 @@ class MainPage extends React.Component {
     this.setState({ recipes: newRecipes });
   }
 
+  renderEdit(index) {
+    const recipe = this.state.recipes[index];
+    let editorRecipe = [];
+    editorRecipe = editorRecipe.concat(recipe)[0];
+    this.setState({
+      view: 'Edit',
+      editViewSubtype: 'Edit',
+      recipeIndex: index,
+      editingRecipe: editorRecipe });
+  }
+
+  editSubmit(index, title, ingredients) {
+    const newRecipe = {
+      name: title,
+      ingredients,
+    };
+    if (index || index === 0) {
+      console.log("MAINPAGE is handling EDIT SUBMIT");
+      const newRecArrayStart = this.state.recipes.slice(0, index);
+      const newRecArrayEnd = this.state.recipes.slice((index + 1), (this.state.recipes.length));
+      const newRecArray = newRecArrayStart.concat(newRecipe).concat(newRecArrayEnd);
+      console.log("New recipe array: " + JSON.stringify(newRecArray))
+      this.setState({ recipes: newRecArray });
+    } else {
+      const newRecArray = this.state.recipes.concat(newRecipe);
+      this.setState({ recipes: newRecArray });
+    }
+  }
+
+  closeWindows() {
+    this.setState({
+      view: 'List',
+      recipeIndex: null,
+      editingRecipe: {} });
+  }
+
   renderRecipe(index) {
     this.setState({
       view: 'Recipe',
       recipeIndex: index });
   }
 
-  renderEdit(index) {
-    this.setState({
-      view: 'Edit',
-      recipeIndex: index });
-  }
-
   render() {
+  //  console.log("APP STATE (go neers): " + JSON.stringify(this.state))
+  // Add a ternary to handle showing a simple add button
     return (
-            <div>
+            <div className = "mainPage">
                 <h1>Recipe Box v0.0.1</h1>
                 <List recipes = {this.state.recipes}
                   recClick = {this.renderRecipe}
                 />
-                {this.state.view === 'Edit' ? <Edit options = {this.state.recipeIndex} /> : null}
+                {this.state.view === 'Edit'
+                ? <Edit index = {this.state.recipeIndex}
+                  recipe = {this.state.editingRecipe}
+                  view = {this.state.editViewSubtype}
+                  handleClose = {this.closeWindows}
+                  handleSubmit = {this.editSubmit}
+                /> : null}
                 {this.state.view === 'Recipe'
                 ? <Recipe name = {this.state.recipes[this.state.recipeIndex].name}
                   ingredients = {this.state.recipes[this.state.recipeIndex].ingredients}

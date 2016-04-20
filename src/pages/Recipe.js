@@ -6,13 +6,17 @@ class Recipe extends React.Component {
     this.props.editClick(this.props.index);
   }
   render() {
-  console.log(this.props);
+    console.log(this.props);
+    const ingredientsList = this.props.ingredients.map((ingredient, index) => {
+      return <p key = {index}> {ingredient}</p>
+    });
+
     return (
-            <div>
+            <div className = "recipe">
                 <h2>Recipe Card</h2>
-                <p>{this.props.name}</p>
-                <p>{this.props.ingredients}</p>
-                <h3 onClick={() => this.handleClick()}>Edit</h3>
+                <h3>{this.props.name}</h3>
+                {ingredientsList}
+                <button onClick={() => this.handleClick()}>Edit</button>
             </div>
         );
   }
