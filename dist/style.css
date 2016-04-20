@@ -17,3 +17,16 @@
 	border: 2px solid yellow;
 	margin: 20px;
 }
+
+.bttn {
+	border: 1px solid blue;
+	border-radius: 5px;
+	color: white;
+	background-color: blue;
+	margin: 5px;
+}
+
+.bttn:hover {
+	background-color: white;
+	color: blue;
+}

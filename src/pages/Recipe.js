@@ -2,11 +2,17 @@ import React from 'react';
 
 class Recipe extends React.Component {
 
-  handleClick() {
-    this.props.editClick(this.props.index);
+  handleClick(keyword) {
+    if (keyword === 'Edit') {
+      this.props.editClick(this.props.index);
+    } else if (keyword === 'Delete') {
+      this.props.deleteClick(this.props.index);
+    } else if (keyword === 'Close') {
+      this.props.closeClick();
+    } else {return null}
   }
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const ingredientsList = this.props.ingredients.map((ingredient, index) => {
       return <p key = {index}> {ingredient}</p>
     });
@@ -16,7 +22,10 @@ class Recipe extends React.Component {
                 <h2>Recipe Card</h2>
                 <h3>{this.props.name}</h3>
                 {ingredientsList}
-                <button onClick={() => this.handleClick()}>Edit</button>
+                <div className = "bttn" onClick={() => this.handleClick('Edit')}>Edit</div>
+                <div className = "bttn" onClick={() => this.handleClick('Delete')}>Delete</div>
+                <div className = "bttn" onClick={() => this.handleClick('Close')}>Close</div>
+
             </div>
         );
   }
