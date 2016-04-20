@@ -22,6 +22,35 @@ class MainPage extends React.Component {
   addRecipe(recipe) {
     const newRecipes = this.state.recipes.concat(recipe);
     this.setState({ recipes: newRecipes });
+    localStorage.setItem('recipes', JSON.stringify(newRecipes));
+  }
+
+
+  editSubmit(index, title, ingredients) {
+    const newRecipe = {
+      name: title,
+      ingredients,
+    };
+    if (index || index === 0) {
+      console.log("MAINPAGE is handling EDIT SUBMIT");
+      const newRecArrayStart = this.state.recipes.slice(0, index);
+      const newRecArrayEnd = this.state.recipes.slice((index + 1), (this.state.recipes.length));
+      const newRecArray = newRecArrayStart.concat(newRecipe).concat(newRecArrayEnd);
+      localStorage.setItem('recipes', JSON.stringify(newRecArray));
+      console.log("New recipe array: " + JSON.stringify(newRecArray))
+      this.setState({ recipes: newRecArray });
+    } else {
+      const newRecArray = this.state.recipes.concat(newRecipe);
+      this.setState({ recipes: newRecArray });
+      localStorage.setItem('recipes', JSON.stringify(newRecArray));
+    }
+  }
+
+  closeWindows() {
+    this.setState({
+      view: 'List',
+      recipeIndex: null,
+      editingRecipe: {} });
   }
 
   renderEdit(index) {
@@ -35,30 +64,6 @@ class MainPage extends React.Component {
       editingRecipe: editorRecipe });
   }
 
-  editSubmit(index, title, ingredients) {
-    const newRecipe = {
-      name: title,
-      ingredients,
-    };
-    if (index || index === 0) {
-      console.log("MAINPAGE is handling EDIT SUBMIT");
-      const newRecArrayStart = this.state.recipes.slice(0, index);
-      const newRecArrayEnd = this.state.recipes.slice((index + 1), (this.state.recipes.length));
-      const newRecArray = newRecArrayStart.concat(newRecipe).concat(newRecArrayEnd);
-      console.log("New recipe array: " + JSON.stringify(newRecArray))
-      this.setState({ recipes: newRecArray });
-    } else {
-      const newRecArray = this.state.recipes.concat(newRecipe);
-      this.setState({ recipes: newRecArray });
-    }
-  }
-
-  closeWindows() {
-    this.setState({
-      view: 'List',
-      recipeIndex: null,
-      editingRecipe: {} });
-  }
 
   renderRecipe(index) {
     this.setState({
